@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmacy Management System</title>
+    <link rel="stylesheet" href="sales_management.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Pharmacy Management System</h1>
+
+        <div class="sales-section">
+            <h2>Sales Medicine</h2>
+            <form id="sales-form">
+                <label for="date">Date:</label>
+                <input type="date" id="date" required>
+
+                <label for="customer-id">Customer Id:</label>
+                <input type="text" id="customer-id" required>
+
+                <label for="medicine-name">Medicine Name:</label>
+                <input type="text" id="medicine-name" required>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" required>
+
+                <label for="selling-price">Selling Price:</label>
+                <input type="number" id="selling-price" required>
+
+                <label for="total-amount">Total Amount:</label>
+                <input type="number" id="total-amount" disabled>
+
+                <button type="submit" id="add-button">ADD</button>
+            </form>
+        </div>
+
+        <div class="table-section">
+            <h2>Sales Medicine</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Medicine</th>
+                        <th>List Price</th>
+                        <th>Quantity</th>
+                        <th>Amount</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="sales-data">
+                    <!-- Dynamic rows will be inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load stored sales data
+            loadSalesData();
+
+            // Add event listener for the form submission
+            document.getElementById('sales-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                addSale();
+            });
+
+            // Calculate total amount automatically
+            document.getElementById('quantity').addEventListener('input', calculateTotalAmount);
+            document.getElementById('selling-price').addEventListener('input', calculateTotalAmount);
+        });
+
+        // Function to calculate total amount
+        function calculateTotalAmount() {
+            const quantity = document.getElementById('quantity').value;
+            const sellingPrice = document.getElementById('selling-price').value;
+            const totalAmount = quantity * sellingPrice;
+            document.getElementById('total-amount').value = totalAmount || 0;
+        }
+
+        // Function to add sale to the table and store in local storage
+        function addSale() {
+            const date = document.getElementById('date').value;
+            const customerId = document.getElementById('customer-id').value;
+            const medicineName = document.getElementById('medicine-name').value;
+            const quantity = document.getElementById('quantity').value;
+            const sellingPrice = document.getElementById('selling-price').value;
+            const totalAmount = document.getElementById('total-amount').value;
+
+            // Create sale object
+            const sale = {
+                date,
+                customerId,
+                medicineName,
+                quantity,
+                sellingPrice,
+                totalAmount
+            };
+
+            // Get existing sales from local storage or create a new array
+            let salesData = JSON.parse(localStorage.getItem('salesData')) || [];
+            salesData.push(sale);
+
+            // Save updated sales data to local storage
+            localStorage.setItem('salesData', JSON.stringify(salesData));
+
+            // Reload the sales table
+            loadSalesData();
+
+            // Reset form after adding the sale
+            document.getElementById('sales-form').reset();
+            document.getElementById('total-amount').value = 0;
+        }
+
+        // Function to load sales data from local storage and display it
+        function loadSalesData() {
+            const salesData = JSON.parse(localStorage.getItem('salesData')) || [];
+            const salesTableBody = document.getElementById('sales-data');
+
+            // Clear existing table rows
+            salesTableBody.innerHTML = '';
+
+            // Loop through sales data and create table rows
+            salesData.forEach((sale, index) => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                    <td>${sale.date}</td>
+                    <td>${sale.medicineName}</td>
+                    <td>${sale.sellingPrice}</td>
+                    <td>${sale.quantity}</td>
+                    <td>${sale.totalAmount}</td>
+                    <td><button class="delete-button" onclick="deleteSale(${index})">Delete</button></td>
+                `;
+
+                salesTableBody.appendChild(row);
+            });
+        }
+
+        // Function to delete a sale from the table and local storage
+        function deleteSale(index) {
+            let salesData = JSON.parse(localStorage.getItem('salesData')) || [];
+
+            // Remove the sale from the array
+            salesData.splice(index, 1);
+
+            // Update local storage with the new data
+            localStorage.setItem('salesData', JSON.stringify(salesData));
+
+            // Reload the sales table
+            loadSalesData();
+        }
+    </script>
+</body>
+</html>
+
+

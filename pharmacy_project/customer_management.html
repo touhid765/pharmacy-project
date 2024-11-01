@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management System</title>
+    <link rel="stylesheet" href="customer_management.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Side: Form -->
+        <div class="left-side">
+            <h1>Add Customer</h1>
+            <form id="customerForm">
+                <input type="text" id="customerName" placeholder="Customer Name" required>
+                <input type="text" id="phoneNumber" placeholder="Phone Number" required>
+                <input type="text" id="medicines" placeholder="Purchased Medicines" required>
+                <input type="number" id="discount" placeholder="Discount" required>
+                <input type="number" id="totalAmount" placeholder="Total Amount" required>
+                <select id="paidStatus" required>
+                    <option value="" disabled selected>Paid Status</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Unpaid">Unpaid</option>
+                </select>
+                <button type="submit">Add Customer</button>
+            </form>
+        </div>
+
+        <!-- Right Side: Customer Records -->
+        <div class="right-side">
+            <h2>Customer Records</h2>
+            <div id="customerRecords"></div>
+        </div>
+    </div>
+
+    <script src="customer_management .js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
