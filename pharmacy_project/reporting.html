@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction Reports</title>
+  <link rel="stylesheet" href="reporting.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Transaction Reports</h2>
+    <div class="input-group">
+      <div>
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate">
+      </div>
+      <div>
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate">
+      </div>
+    </div>
+    <button class="btn" onclick="viewRecords()">View Records</button>
+    <div id="reportResults"></div>
+  </div>
+  <script src="reporting.js"></script>
+</body>
+</html>
+
